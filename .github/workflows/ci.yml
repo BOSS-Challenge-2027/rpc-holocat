@@ -84,6 +84,7 @@ jobs:
             exit 1
           fi
 
+      - name: Restore ccache
         env:
           # The template repository is public, so any repository's token can read its releases.
           GH_TOKEN: ${{ github.token }}
