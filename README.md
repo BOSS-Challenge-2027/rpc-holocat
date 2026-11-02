@@ -7,7 +7,9 @@ To accomplish this you will need to build Bitcoin Core from source, add your cod
 changes, test your code changes, commit and push.
 
 > [!TIP]
-> Do not push to any other branch besides `main`
+> Push to `main` only: that is your submission. Pushes to other branches are not evaluated.
+> You have three attempts; each push to `main` whose CI completes counts as one.
+> Until `feature_holocat.py` has been changed, CI fails right away without building.
 
 This repository already contains the Bitcoin Core source code at the `v32.0` tag.
 One extra, empty, functional test file has been added `feature_holocat.py` which

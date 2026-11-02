@@ -71,7 +71,19 @@ jobs:
           echo "CCACHE_REPO=${repo}" >> "$GITHUB_ENV"
           echo "Using ccache from ${repo}"
 
-      - name: Restore ccache
+      - name: Require the holocat test to be written
+        # Repositories created from the template start with the placeholder test, which
+        # fails on purpose. Building Bitcoin Core to find that out wastes an hour: fail
+        # here instead until test/functional/feature_holocat.py has been changed. The
+        # template itself skips this so its ccache keeps getting published.
+        if: env.CCACHE_REPO != github.repository
+        run: |
+          placeholder=e13ddca247f5ac14ecffccd642f4f296e448ab039ee0a83849a0afa70e345b83
+          if [ "$(sha256sum test/functional/feature_holocat.py | cut -d' ' -f1)" = "$placeholder" ]; then
+            echo "::error file=test/functional/feature_holocat.py::feature_holocat.py has not been changed. Write the test for your holocat RPC, then push again."
+            exit 1
+          fi
+
         env:
           # The template repository is public, so any repository's token can read its releases.
           GH_TOKEN: ${{ github.token }}
